@@ -1,0 +1,9 @@
+[
+  { "id": 12, "date": "2026-10-15", "statut": "en préparation", "total": 11.5,
+    "lignes": [
+      { "plat": { "id": 1, "nom": "Lasagnes" }, "quantite": 1, "prix": 6.5 },
+      { "plat": { "id": 2, "nom": "Salade César" }, "quantite": 1, "prix": 5.0 } ] },
+  { "id": 7, "date": "2026-10-10", "statut": "livrée", "total": 6.5,
+    "lignes": [
+      { "plat": { "id": 1, "nom": "Lasagnes" }, "quantite": 1, "prix": 6.5 } ] }
+]

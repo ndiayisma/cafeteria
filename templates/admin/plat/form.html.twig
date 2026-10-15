@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Back-office — {{ titre }}{% endblock %}
+
+{% block body %}
+<div class="container my-4" style="max-width: 640px">
+    <h1 class="h3 mb-3">{{ titre }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-solid theme-primary">Enregistrer</button>
+        <a class="btn btn-outline" href="{{ path('admin_plat_index') }}">Annuler</a>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

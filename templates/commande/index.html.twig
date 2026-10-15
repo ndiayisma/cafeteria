@@ -1,20 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CommandeController!{% endblock %}
+{% block title %}Mes commandes{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="container my-4">
+    <h1 class="h3 mb-3">Mes commandes</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/LASSleBOSS/PhpstormProjects/cafeteria/src/Controller/CommandeController.php</code></li>
-        <li>Your template at <code>C:/Users/LASSleBOSS/PhpstormProjects/cafeteria/templates/commande/index.html.twig</code></li>
-    </ul>
+    {% for commande in commandes %}
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between">
+                <span>Commande n°{{ commande.id }}{% if commande.date is defined %} — {{ commande.date|date('d/m/Y') }}{% endif %}</span>
+                {% if commande.statut is defined %}<span class="badge theme-primary">{{ commande.statut }}</span>{% endif %}
+            </div>
+            <div class="card-body">
+                {% if commande.lignes is defined and commande.lignes is not empty %}
+                    <table class="table mb-0">
+                        <thead>
+                            <tr><th>Plat</th><th class="text-end">Qté</th><th class="text-end">Prix</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for ligne in commande.lignes %}
+                                <tr>
+                                    <td>{{ ligne.plat.nom ?? ligne.plat }}</td>
+                                    <td class="text-end">{{ ligne.quantite ?? 1 }}</td>
+                                    <td class="text-end">{{ (ligne.prix ?? 0)|number_format(2, ',', ' ') }} €</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                {% if commande.total is defined %}
+                    <p class="text-end fw-bold mt-2 mb-0">Total : {{ commande.total|number_format(2, ',', ' ') }} €</p>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <p>Vous n'avez pas encore passé de commande.</p>
+    {% endfor %}
 </div>
 {% endblock %}

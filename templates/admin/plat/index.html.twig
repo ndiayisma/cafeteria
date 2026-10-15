@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Back-office — Plats{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Plats</h1>
+        <a class="btn btn-solid theme-primary" href="{{ path('admin_plat_new') }}">Ajouter un plat</a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr><th>#</th><th>Nom</th><th class="text-end">Prix</th><th>Disponible</th><th></th></tr>
+        </thead>
+        <tbody>
+            {% for plat in plats %}
+                <tr>
+                    <td>{{ plat.id }}</td>
+                    <td>{{ plat.nom }}</td>
+                    <td class="text-end">{{ plat.prix|number_format(2, ',', ' ') }} €</td>
+                    <td>{{ (plat.disponible ?? true) ? 'Oui' : 'Non' }}</td>
+                    <td class="text-end">
+                        <a class="btn btn-outline btn-sm" href="{{ path('admin_plat_edit', {id: plat.id}) }}">Modifier</a>
+                        <form method="post" action="{{ path('admin_plat_delete', {id: plat.id}) }}" class="d-inline"
+                              onsubmit="return confirm('Supprimer ce plat ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete_plat_' ~ plat.id) }}">
+                            <button class="btn btn-outline theme-danger btn-sm">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5">Aucun plat.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

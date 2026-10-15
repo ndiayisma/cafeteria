@@ -1,0 +1,4 @@
+[
+  { "id": 1, "nom": "Lasagnes", "description": "Lasagnes bolognaise maison", "prix": 6.5, "disponible": true },
+  { "id": 2, "nom": "Salade César", "description": "", "prix": 5.0, "disponible": false }
+]

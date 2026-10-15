@@ -20,6 +20,8 @@
         <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
         {% endif %}
     </head>
+    <body>
+    {% set etudiant = app.session.get('etudiant') %}
     <nav class="navbar sm:navbar-expand bg-1 fg-2">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Cafet'Campus</a>
@@ -39,15 +41,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_commande') }}">Mes Commandes</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                        </li>
+                        {% if etudiant and etudiant.is_staff %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_plat_index') }}">Back-office</a>
+                            </li>
+                        {% endif %}
                     </ul>
-                    {% if app.user %}
-                        <a class="btn btn-outline theme-primary ms-auto" href="{{ path('app_logout') }}">Se déconnecter</a>
+                    {% if etudiant %}
+                        <span class="ms-auto me-2">{{ etudiant.prenom ?: etudiant.email }}</span>
+                        <a class="btn btn-outline theme-primary" href="{{ path('app_logout') }}">Se déconnecter</a>
                     {% else %}
                         <a class="btn btn-solid theme-primary ms-auto" href="{{ path('app_login') }}">Se connecter</a>
                     {% endif %}
@@ -55,7 +57,13 @@
             </dialog>
         </div>
     </nav>
-    <body>
+        <div class="container mt-3">
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ type }}">{{ message }}</div>
+                {% endfor %}
+            {% endfor %}
+        </div>
         {% block body %}{% endblock %}
     </body>
 </html>
