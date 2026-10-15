@@ -28,10 +28,7 @@ class SecurityController extends AbstractController
                 $error = 'Jeton CSRF invalide, réessayez.';
             } else {
                 try {
-                    $etudiant = $api->post('/v1/login', [
-                        'email' => $email,
-                        'password' => (string) $request->request->get('password', ''),
-                    ]);
+                    $etudiant = $api->login($email, (string) $request->request->get('password', ''));
                 } catch (ClientExceptionInterface) {
                     $etudiant = []; // 400/401/404 : identifiants refusés par l'API
                 } catch (ExceptionInterface) {
