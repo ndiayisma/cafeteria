@@ -42,11 +42,6 @@
         </table>
 
         <a href="{{ path('app_menu') }}" role="button" class="secondary outline">Continuer mes achats</a>
-        {# TODO étape 4 : retirer le test une fois la route app_commande_paiement créée #}
-        {% if route_exists('app_commande_paiement') %}
-            <a href="{{ path('app_commande_paiement') }}" role="button">Commander</a>
-        {% else %}
-            <button disabled>Commander</button>
-        {% endif %}
+        <a href="{{ path('app_commande_paiement') }}" role="button">Commander</a>
     {% endif %}
 {% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement – CampusEats{% endblock %}
+
+{% block body %}
+    <h1>Récapitulatif et paiement</h1>
+
+    <table>
+        <thead><tr><th>Plat</th><th>Quantité</th><th>Sous-total</th></tr></thead>
+        <tbody>
+        {% for ligne in panier %}
+            <tr>
+                <td>{{ ligne.nom }}</td>
+                <td>{{ ligne.qte }}</td>
+                <td>{{ (ligne.prix * ligne.qte)|number_format(2, ',', ' ') }} €</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr><th colspan="2">Total à payer</th><th><strong>{{ total|number_format(2, ',', ' ') }} €</strong></th></tr>
+        </tfoot>
+    </table>
+
+    <form method="post" action="{{ path('app_commande_paiement') }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('commande') }}">
+        <fieldset>
+            <legend>Moyen de paiement <small>(paiement simulé, aucun débit)</small></legend>
+            {% for valeur, libelle in moyens %}
+                <label>
+                    <input type="radio" name="moyen_paiement" value="{{ valeur }}" {{ loop.first ? 'checked' }} required>
+                    {{ libelle }}
+                </label>
+            {% endfor %}
+        </fieldset>
+        <a href="{{ path('app_panier') }}" role="button" class="secondary outline">Modifier le panier</a>
+        <button type="submit" style="width: auto">Payer {{ total|number_format(2, ',', ' ') }} €</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande n°{{ id }} validée – CampusEats{% endblock %}
+
+{% block body %}
+    <article>
+        <h1>✅ Commande n°{{ id }} validée</h1>
+        <p>Ton repas est à récupérer <strong>à midi</strong> à la cafétéria.</p>
+        <footer>
+            <a href="{{ path('app_commande_show', {id: id}) }}" role="button">Voir le détail</a>
+            <a href="{{ path('app_menu') }}" role="button" class="secondary outline">Retour au menu</a>
+        </footer>
+    </article>
+{% endblock %}

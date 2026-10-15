@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande n°{{ commande.id }} – CampusEats{% endblock %}
+
+{% macro statut(ok, oui, non) %}
+    <mark style="{{ ok ? 'background:#d1f2dc;color:#14532d' : 'background:#fef3c7;color:#78350f' }}">{{ ok ? oui : non }}</mark>
+{% endmacro %}
+
+{% block body %}
+    <h1>Commande n°{{ commande.id }}</h1>
+
+    <p>
+        {% if commande.date is defined %}Passée le {{ commande.date|date('d/m/Y') }}.{% endif %}
+        {% if commande.moyen_paiement is defined %}Paiement : {{ moyens[commande.moyen_paiement] ?? commande.moyen_paiement }}.{% endif %}
+    </p>
+    <p>
+        Statut :
+        {{ _self.statut(commande.paye ?? false, '✅ Payée', '⏳ Non payée') }}
+        {{ _self.statut(commande.livre ?? false, '✅ Récupérée', '🍽️ À récupérer à midi') }}
+    </p>
+
+    {% if commande.lignes is defined and commande.lignes is not empty %}
+        <table>
+            <thead><tr><th>Plat</th><th>Quantité</th><th>Sous-total</th></tr></thead>
+            <tbody>
+            {% for ligne in commande.lignes %}
+                <tr>
+                    <td>{{ ligne.nom ?? ('Plat n°' ~ ligne.plat_id) }}</td>
+                    <td>{{ ligne.quantite }}</td>
+                    <td>{{ ligne.prix is defined ? (ligne.prix * ligne.quantite)|number_format(2, ',', ' ') ~ ' €' : '–' }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            {% if commande.total is defined %}
+                <tfoot>
+                    <tr><th colspan="2">Total</th><th><strong>{{ commande.total|number_format(2, ',', ' ') }} €</strong></th></tr>
+                </tfoot>
+            {% endif %}
+        </table>
+    {% endif %}
+
+    <a href="{{ path('app_menu') }}" role="button" class="secondary outline">Retour au menu</a>
+{% endblock %}

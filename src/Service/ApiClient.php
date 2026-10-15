@@ -25,6 +25,27 @@ class ApiClient
         return $this->client->request('POST', $this->baseUrl.$path, ['json' => $data])->toArray();
     }
 
+    /**
+     * Crée une commande et renvoie la réponse de l'API ({ "id", ... }).
+     * $panier : [plat_id => ['nom', 'prix', 'qte']] (format de CartService)
+     *
+     * TODO : la route POST /v1/orders n'existe pas encore côté Django.
+     * Adapter ici seulement (URL, noms des champs, forme de la réponse) quand elle sera dispo.
+     */
+    public function createOrder(int $etudiantId, array $panier, string $moyenPaiement): array
+    {
+        $lignes = [];
+        foreach ($panier as $platId => $ligne) {
+            $lignes[] = ['plat_id' => $platId, 'quantite' => $ligne['qte']];
+        }
+
+        return $this->post('/v1/orders', [
+            'etudiant_id' => $etudiantId,
+            'lignes' => $lignes,
+            'moyen_paiement' => $moyenPaiement,
+        ]);
+    }
+
     // "/v1/menus/1" → mock/get_v1_menus_1.json
     private function readMock(string $method, string $path): array
     {
