@@ -1,0 +1,7 @@
+{ "id": 1, "date": "2026-10-15",
+  "plats": [
+    { "id": 1, "nom": "Lasagnes", "prix": 6.5 },
+    { "id": 2, "nom": "Salade César", "prix": 5.0 } ] }
+
+
+// A changer avec Valentin
