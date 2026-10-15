@@ -1,0 +1,4 @@
+{ "id": 42, "etudiant_id": 1, "date": "2026-10-15", "moyen_paiement": "CB",
+  "paye": true, "livre": false, "total": 13.0,
+  "lignes": [
+    { "plat_id": 1, "nom": "Lasagnes", "prix": 6.5, "quantite": 2 } ] }

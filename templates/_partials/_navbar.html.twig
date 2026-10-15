@@ -1,0 +1,20 @@
+{% set user = app.session.get('user') %}
+<nav class="container">
+    <ul>
+        <li><a href="{{ path('app_menu') }}"><strong>🍽️ CampusEats</strong></a></li>
+    </ul>
+    <ul>
+        <li><a href="{{ path('app_menu') }}">Menu</a></li>
+        {% set nb_articles = app.session.get('panier', [])|reduce((total, ligne) => total + ligne.qte, 0) %}
+        <li><a href="{{ path('app_panier') }}">🛒 Panier{% if nb_articles %} ({{ nb_articles }}){% endif %}</a></li>
+        {% if user and user.role == 'admin' %}
+            <li><a href="{{ route_exists('admin_dashboard') ? path('admin_dashboard') : '/admin' }}">Dashboard</a></li>
+        {% endif %}
+        {% if user %}
+            <li><small>{{ user.email }}</small></li>
+            <li><a href="{{ route_exists('app_logout') ? path('app_logout') : '/logout' }}">Déconnexion</a></li>
+        {% elseif route_exists('app_login') %}
+            <li><a href="{{ path('app_login') }}">Connexion</a></li>
+        {% endif %}
+    </ul>
+</nav>

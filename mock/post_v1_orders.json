@@ -1,0 +1,2 @@
+{ "id": 42, "etudiant_id": 1, "moyen_paiement": "CB",
+  "lignes": [ { "plat_id": 1, "quantite": 2 } ] }

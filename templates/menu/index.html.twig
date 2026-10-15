@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Menu du jour – CampusEats{% endblock %}
+
+{% block body %}
+    <h1>Menu du jour</h1>
+
+    {% if menu and menu.plats is defined and menu.plats is not empty %}
+        <p>Menu du {{ menu.date|date('d/m/Y') }}. Commande le matin, à récupérer à midi.</p>
+        <table>
+            <thead><tr><th>Plat</th><th>Prix</th><th></th></tr></thead>
+            <tbody>
+            {% for plat in menu.plats %}
+                <tr>
+                    <td>{{ plat.nom }}</td>
+                    <td>{{ plat.prix|number_format(2, ',', ' ') }} €</td>
+                    <td>
+                        <form class="inline" method="post" action="{{ path('app_panier_ajout', {id: plat.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('panier') }}">
+                            <button type="submit">Ajouter au panier</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun plat disponible pour le moment.</p>
+    {% endif %}
+{% endblock %}
