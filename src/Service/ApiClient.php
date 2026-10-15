@@ -20,7 +20,7 @@ class ApiClient
     public function login(string $email, string $password): array
     {
         return $this->decode($this->client->request('POST', self::BASE_URL.'/v1/login', [
-            'json' => ['email' => $email, 'password' => $password],
+            'json' => ['email' => $email, 'mdp' => $password],
         ]));
     }
 
